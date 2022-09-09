@@ -1,25 +1,69 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {AiOutlineClose,AiOutlineApple,AiFillFacebook} from "react-icons/ai"
+import {FcGoogle} from "react-icons/fc"
+import Modal from 'react-modal';
+
+const customStyles = {
+  content: {
+    width:"40%",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
+
+// Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
+Modal.setAppElement(document.getElementById("root"));
 
 function App() {
+  let subtitle;
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    subtitle.style.color = '#000';
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button onClick={openModal} className="">Daxil olun</button>
+      <button onClick={openModal} className="bg-[#00aaff] text-white p-2 m-2 rounded">Qeydiyyatdan Keçin</button>
+      <Modal
+      
+        isOpen={modalIsOpen}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <h2 ref={(_subtitle) => (subtitle = _subtitle)} className="text-center text-2xl font-bold">Qeydiyyatdan Keçin</h2>
+        <button className='absolute top-4 right-4' onClick={closeModal}><AiOutlineClose size={25}/></button>
+        <p className='text-center my-2 text-xl font-semibold' >Aşağıda daxil olun və ya yeni Wolt hesabı yaradın.</p>
+        <form className='flex flex-col justify-center items-center'>
+          
+          <button className='block p-4 bg-[#ccd] my-2 text-[#444] rounded w-[70%] text-center font-semibold'><FcGoogle className='inline mx-2' size={30}/> Google ilə davam et</button>
+          <button className='block p-4 bg-[#111] my-2 rounded w-[70%] text-center text-white font-semibold'> <AiOutlineApple size={30} className="inline mx-2"/> Apple ilə davam et</button>
+          <p className='font-semibold'>Facebook ilə daxil olmaq üçün</p>
+          <button className='block p-4 bg-[#46ff] my-2 text-white rounded w-[70%] text-center font-semibold'><AiFillFacebook size={30} className="fill-white inline mx-2"/> Facebook ilə davam et</button>
+          <p className='font-semibold'>və ya e-poçt ilə daxil olun</p>
+          <input  className='block p-4 bg-[#ccc] my-2 rounded w-[70%] 'placeholder='E-poçt'/>
+          <button className='block p-4 bg-[#08ff] text-[#fff] text-xl font-semibold my-2 rounded w-[70%] text-center'>Növbəti</button>
+        </form>
+      </Modal>
     </div>
   );
 }
+
 
 export default App;
